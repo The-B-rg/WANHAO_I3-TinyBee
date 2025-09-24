@@ -791,12 +791,12 @@
 //#define USE_KMAX_PLUG
 
 // Enable pullup for all endstops to prevent a floating state
-#define ENDSTOPPULLUPS
+//#define ENDSTOPPULLUPS
 #if DISABLED(ENDSTOPPULLUPS)
   // Disable ENDSTOPPULLUPS to set pullups individually
   //#define ENDSTOPPULLUP_XMIN
   //#define ENDSTOPPULLUP_YMIN
-  //#define ENDSTOPPULLUP_ZMIN
+  #define ENDSTOPPULLUP_ZMIN
   //#define ENDSTOPPULLUP_IMIN
   //#define ENDSTOPPULLUP_JMIN
   //#define ENDSTOPPULLUP_KMIN
@@ -831,12 +831,12 @@
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 #define X_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
 #define Y_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define I_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define J_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define K_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define X_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Y_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
+#define X_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
+#define Y_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
 #define Z_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define I_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define J_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
@@ -861,19 +861,19 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-#define X_DRIVER_TYPE  TMC2209
-#define Y_DRIVER_TYPE  TMC2209
-#define Z_DRIVER_TYPE  TMC2209
+#define X_DRIVER_TYPE  TMC2209_STANDALONE
+#define Y_DRIVER_TYPE  TMC2209_STANDALONE
+#define Z_DRIVER_TYPE  TMC2209_STANDALONE
 //#define X2_DRIVER_TYPE A4988
 //#define Y2_DRIVER_TYPE A4988
-//#define Z2_DRIVER_TYPE A4988
+#define Z2_DRIVER_TYPE TMC2209_STANDALONE
 //#define Z3_DRIVER_TYPE A4988
 //#define Z4_DRIVER_TYPE A4988
 //#define I_DRIVER_TYPE  A4988
 //#define J_DRIVER_TYPE  A4988
 //#define K_DRIVER_TYPE  A4988
-#define E0_DRIVER_TYPE TMC2209
-//#define E1_DRIVER_TYPE A4988
+#define E0_DRIVER_TYPE TMC2209_STANDALONE
+#define E1_DRIVER_TYPE TMC2209_STANDALONE
 //#define E2_DRIVER_TYPE A4988
 //#define E3_DRIVER_TYPE A4988
 //#define E4_DRIVER_TYPE A4988
@@ -1194,6 +1194,27 @@
 // Feedrate (mm/min) for the "accurate" probe of each point
 #define Z_PROBE_FEEDRATE_SLOW (Z_PROBE_FEEDRATE_FAST / 2)
 
+#if HAS_TMC220x
+  #define X_SERIAL_TX_PIN PA6
+  #define X_SERIAL_TX_PIN PA1
+  
+  #define Y_SERIAL_TX_PIN PA6
+  #define Y_SERIAL_TX_PIN PA1
+  
+  #define Z_SERIAL_TX_PIN PA1
+  #define Z_SERIAL_TX_PIN PA6
+  
+  #define E0_SERIAL_TX_PIN PA6
+  #define E0_SERIAL_TX_PIN PA1
+
+  #define TMC_BAUD_RATE 19200
+
+  #define X_SLAVE_ADDRESS 0
+  #define Y_SLAVE_ADDRESS 1
+  #define Z_SLAVE_ADDRESS 2
+  #define E0_SLAVE_ADDRESS 3
+#endif
+
 /**
  * Probe Activation Switch
  * A switch indicating proper deployment, or an optical
@@ -1321,8 +1342,8 @@
 // @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR true
-#define INVERT_Y_DIR true
+#define INVERT_X_DIR false
+#define INVERT_Y_DIR false
 #define INVERT_Z_DIR false
 //#define INVERT_I_DIR false
 //#define INVERT_J_DIR false
